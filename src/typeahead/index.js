@@ -21,7 +21,8 @@ var Typeahead = React.createClass({
     defaultValue: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onOptionSelected: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func
+    onKeyDown: React.PropTypes.func,
+    onBlur: React.PropTypes.func
   },
 
   getDefaultProps: function() {
@@ -31,6 +32,7 @@ var Typeahead = React.createClass({
       defaultValue: "",
       placeholder: "",
       onKeyDown: function(event) { return },
+      onBlur: function(event) { return },
       onOptionSelected: function(option) { }
     };
   },
@@ -155,6 +157,10 @@ var Typeahead = React.createClass({
     event.preventDefault();
   },
 
+  _onBlur: function(event){
+    this.props.onBlur(event);
+  },
+
   render: function() {
     var inputClasses = {}
     inputClasses[this.props.customClasses.input] = !!this.props.customClasses.input;
@@ -171,7 +177,8 @@ var Typeahead = React.createClass({
         <input ref="entry" type="text"
           placeholder={this.props.placeholder}
           className={inputClassList} defaultValue={this.state.entryValue}
-          onChange={this._onTextEntryUpdated} onKeyDown={this._onKeyDown} />
+          onChange={this._onTextEntryUpdated} onKeyDown={this._onKeyDown}
+          onBlur={this._onBlur}/>
         { this._renderIncrementalSearchResults() }
       </div>
     );
